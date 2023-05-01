@@ -61,4 +61,99 @@ describe('DoublyLinkedList', () => {
       });
     });
   });
+
+  describe('pop method', () => {
+    it('removes last node from the list', () => {
+      const doublyLinkedList = DoublyLinkedList.fromArray(['10', '12', '15']);
+
+      expect(doublyLinkedList.getLength()).toBe(3);
+      expect(doublyLinkedList.getTail().getValue()).toEqual('15');
+
+      doublyLinkedList.pop();
+      
+      expect(doublyLinkedList.getLength()).toBe(2);
+      expect(doublyLinkedList.getTail().getValue()).toEqual('12');
+      expect(doublyLinkedList.getTail().getNext()).toBe(null);
+      expect(doublyLinkedList.getTail().getPrev().getValue()).toBe('10');
+    });
+
+    it('returns removed node', () => {
+      const doublyLinkedList = DoublyLinkedList.fromArray(['10', '12', '15']);
+
+      const removedNode = doublyLinkedList.pop();
+      
+      expect(removedNode.getValue()).toEqual('15');
+      expect(removedNode.getPrev()).toBe(null);
+      expect(removedNode.getNext()).toBe(null);
+    });
+
+    describe('when there is one node in the list', () => {
+      it('clears the list', () => {
+        const doublyLinkedList = DoublyLinkedList.fromArray(['10']);
+
+        const removedNode = doublyLinkedList.pop();
+        
+        expect(removedNode).toEqual(new DoublyLinkedListNode('10'));
+        expect(doublyLinkedList.getHead()).toBe(null);
+        expect(doublyLinkedList.getTail()).toBe(null);
+        expect(doublyLinkedList.getLength()).toBe(0);
+      });
+    });
+
+    describe('when the list is empty', () => {
+      it('returns undefined', () => {
+        const doublyLinkedList = new DoublyLinkedList();
+
+        expect(doublyLinkedList.pop()).not.toBeDefined();
+        expect(doublyLinkedList.getLength()).toBe(0);
+      });
+    })
+  });
+
+  describe('shift method', () => {
+    it('removes first node from the list', () => {
+      const doublyLinkedList = DoublyLinkedList.fromArray(['10', '12', '15']);
+
+      expect(doublyLinkedList.getLength()).toBe(3);
+      expect(doublyLinkedList.getHead().getValue()).toEqual('10');
+
+      doublyLinkedList.shift();
+      
+      expect(doublyLinkedList.getLength()).toBe(2);
+      expect(doublyLinkedList.getHead().getValue()).toEqual('12');
+      expect(doublyLinkedList.getHead().getPrev()).toBe(null);
+    });
+
+    it('returns the removed node', () => {
+      const doublyLinkedList = DoublyLinkedList.fromArray(['10', '12', '15']);
+
+      const removedNode = doublyLinkedList.shift();
+
+      expect(removedNode.getValue()).toEqual('10');
+      expect(removedNode.getNext()).toBe(null);
+      expect(removedNode.getPrev()).toBe(null);
+    });
+
+    describe('when there is one node in the list', () => {
+      it('clears the list', () => {
+        const doublydLinkedList = DoublyLinkedList.fromArray(['10']);
+
+        const removedNode = doublydLinkedList.shift();
+        
+        expect(removedNode.getValue()).toEqual('10');
+        expect(doublydLinkedList.getHead()).toBe(null);
+        expect(doublydLinkedList.getTail()).toBe(null);
+        expect(doublydLinkedList.getLength()).toBe(0);
+      });
+    });
+
+    describe('when the list is empty', () => {
+      it('returns undefined', () => {
+        const doublydLinkedList = new DoublyLinkedList();
+
+        expect(doublydLinkedList.shift()).not.toBeDefined();
+        expect(doublydLinkedList.getLength()).toBe(0);
+      });
+    })
+  });
 });

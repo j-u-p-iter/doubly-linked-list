@@ -43,6 +43,69 @@ export class DoublyLinkedList {
     return this;
   }
 
+  /**
+   * Removes the last node 
+   *   from the list.
+   *
+   */
+  public pop() {
+    if (this.isEmpty()) { return; }
+
+    const removedNode = this.tail;
+
+    if (this.length === 1) {
+      this.clear();
+
+      removedNode.setPrev(null);
+
+      return removedNode;
+    }
+
+    this.tail = removedNode.getPrev(); 
+
+    this.tail.setNext(null);
+
+    removedNode.setPrev(null);
+
+    this.length--;
+
+    return removedNode;
+  }
+
+  /**
+   * Removes first node 
+   *   from the list.
+   *
+   */
+  public shift() {
+    const currentHead = this.head;
+
+    if (this.isEmpty()) {
+      return;
+    }
+
+    if (this.length === 1) {
+      this.clear();
+    } else {
+      this.head = this.head.getNext();
+      this.head.setPrev(null);
+
+      this.length--;
+    }
+
+    return currentHead.setNext(null);
+  }
+
+  /**
+   * Clears the list.
+   *
+   */
+  public clear() {
+    this.head = null;
+    this.tail = null;
+    this.length = 0;
+  }
+
   public isEmpty() {
     return this.head === null;
   }
@@ -57,5 +120,19 @@ export class DoublyLinkedList {
 
   public getTail() {
     return this.tail;
+  }
+
+  static fromArray(array): DoublyLinkedList {
+    if (!Array.isArray(array)) {
+      throw new Error('fromArray(array) method expects an array');
+    }
+
+    const doublyLinkedList = new DoublyLinkedList();
+
+    array.forEach((value) => {
+      doublyLinkedList.push(value);
+    });
+
+    return doublyLinkedList;
   }
 }
