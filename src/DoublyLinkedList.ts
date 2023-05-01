@@ -97,6 +97,29 @@ export class DoublyLinkedList {
   }
 
   /**
+   * Adds new node to the 
+   *   beginning of the list.
+   *
+   */
+  public unshift(value) {
+    const newNode = this.valueToNode(value);
+
+    if (this.isEmpty()) {
+      return this.push(newNode);
+    }
+
+    newNode.setNext(this.head);
+
+    this.head.setPrev(newNode);
+
+    this.head = newNode;
+
+    this.length++;
+
+    return this;
+  }
+
+  /**
    * Clears the list.
    *
    */

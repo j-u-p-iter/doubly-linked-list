@@ -156,4 +156,55 @@ describe('DoublyLinkedList', () => {
       });
     })
   });
+
+  describe('unshift method', () => {
+    it('returns new linked list', () => {
+      const doublyLinkedList = new DoublyLinkedList();
+
+      const result = doublyLinkedList.unshift('12');
+
+      expect(result).toEqual(doublyLinkedList);
+    });
+
+    describe('when the list is empty', () => {
+      it('head and tail points to the same node', () => {
+        const doublyLinkedList = new DoublyLinkedList();
+
+        doublyLinkedList.unshift('10');
+
+        const head = doublyLinkedList.getHead();
+        const tail = doublyLinkedList.getTail();
+
+        expect(head).toEqual(new DoublyLinkedListNode('10'));
+        expect(head.getNext()).toEqual(null);
+        expect(head.getPrev()).toEqual(null);
+        expect(tail).toEqual(new DoublyLinkedListNode('10'));
+        expect(tail.getNext()).toBe(null);
+        expect(tail.getPrev()).toBe(null);
+        expect(doublyLinkedList.getLength()).toEqual(1);
+      });
+    });
+
+    describe('when there is more than one node', () => {
+      it('replace the head with the newly added node shifting the current head to the right', () => {
+        const doublyLinkedList = new DoublyLinkedList();
+
+        doublyLinkedList.unshift('12');
+        doublyLinkedList.unshift(new DoublyLinkedListNode('25'));
+
+        const head = doublyLinkedList.getHead();
+        const tail = doublyLinkedList.getTail();
+
+        expect(head).toEqual(new DoublyLinkedListNode('25', tail));
+        expect(head.getNext()).toEqual(tail);
+        expect(head.getPrev()).toEqual(null);
+
+        expect(tail).toEqual(new DoublyLinkedListNode('12', null, head));
+        expect(tail.getNext()).toBe(null);
+        expect(tail.getPrev()).toEqual(new DoublyLinkedListNode('25', tail));
+
+        expect(doublyLinkedList.getLength()).toEqual(2);
+      });
+    });
+  });
 });
