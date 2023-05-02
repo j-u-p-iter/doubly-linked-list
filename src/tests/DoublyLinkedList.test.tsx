@@ -207,4 +207,48 @@ describe('DoublyLinkedList', () => {
       });
     });
   });
+
+  describe.only('findAt method', () => {
+    describe('when the list is empty', () => {
+      it('returns null', () => {
+        const doublyLinkedList = new DoublyLinkedList();
+
+        const node = doublyLinkedList.findAt(2);
+
+        expect(node).toEqual(null);
+      });
+    });
+
+    describe('when the index is negative', () => {
+      it('returns null', () => {
+        const doublyLinkedList = new DoublyLinkedList();
+
+        doublyLinkedList.push(new DoublyLinkedListNode('10'));
+
+        const node = doublyLinkedList.findAt(-1);
+
+        expect(node).toEqual(null);
+      })
+    });
+
+    describe('when the index is higher than list length or equal list length', () => {
+      it('returns null', () => {
+        const doublyLinkedList = DoublyLinkedList.fromArray(['10', '12', '15']);
+
+        const node = doublyLinkedList.findAt(3);
+
+        expect(node).toEqual(null);
+      });
+    });
+
+    describe('when the index is valid and the list is not empty', () => {
+      it('returns correct node', () => {
+        const doublyLinkedList = DoublyLinkedList.fromArray(['10', '12', '15']);
+
+        const node = doublyLinkedList.findAt(1);
+
+        expect(node.getValue()).toEqual('12');
+      });
+    });
+  });
 });

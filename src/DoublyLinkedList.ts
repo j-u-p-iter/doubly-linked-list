@@ -1,10 +1,19 @@
 import { DoublyLinkedListNode } from './DoublyLinkedListNode';
 
+type Callback<Result = void> = (current: DoublyLinkedListNode | null, index: number) => Result;
 
 export class DoublyLinkedList {
   private length = 0;
   private head = null;
   private tail = null;
+
+  private isIndexInvalid(index: number) {
+    if (typeof index !== 'number' || index < 0 || index >= this.length) {
+      return true;
+    }
+
+    return false;
+  }
 
   private valueToNode(value: any) {
     let newNode;
@@ -144,6 +153,90 @@ export class DoublyLinkedList {
   public getTail() {
     return this.tail;
   }
+
+  /**
+   * Finds the node by the index.
+   *
+   */
+  public findAt(nodeIndex: number): DoublyLinkedListNode | null {
+    if (this.isIndexInvalid(nodeIndex)) { return null; }
+
+    const methodToSearch = (nodeIndex < this.length / 2 ? this.find : this.findReverse).bind(this);
+
+    const foundNode = methodToSearch((_, index) => index === nodeIndex);
+
+    return foundNode;
+  };
+
+  /**
+   * Finds the node in the list according to the
+   *   condition, provided in the callback.
+   *
+   *   The node is searched from left to right, from
+   *     the head to the tail.
+   *
+   */
+  public find(
+    callback: Callback<boolean>, 
+    startingNode: DoublyLinkedListNode = this.head
+  ): DoublyLinkedListNode | null {
+    if (typeof callback !== 'function') {
+      throw new Error('.find(callback) method expects a callback.');
+    }
+
+    if (!startingNode || !(startingNode instanceof DoublyLinkedListNode)) {
+      throw new Error('.find(callback) expects to start from a starting node.');
+    }
+
+    let current = startingNode;
+    let counter = 0;
+
+    while(current instanceof DoublyLinkedListNode) {
+      if (callback(current, counter)) {
+        return current;
+      }
+
+      current = current.getNext();
+      counter++;
+    }
+
+    return null;
+  }
+
+  /**
+   * Finds the node in the list according to the
+   *   condition, provided in the callback.
+   *
+   *   The node is searched from right to left, from
+   *     the tail to the head.
+   *
+   */
+  public findReverse(
+    callback: Callback<boolean>, 
+    startingNode: DoublyLinkedListNode = this.tail
+  ) {
+    if (typeof callback !== 'function') {
+      throw new Error('.findReverse(callback) method expects a callback.');
+    }
+
+    if (!startingNode || !(startingNode instanceof DoublyLinkedListNode)) {
+      throw new Error('.findReverse(callback) expects to start from a starting node.');
+    }
+
+    let current = startingNode;
+    let counter = this.length - 1;
+
+    while(current instanceof DoublyLinkedListNode) {
+      if (callback(current, counter)) {
+        return current;
+      }
+
+      current = current.getPrev();
+      counter--;
+    }
+
+    return null;
+  } 
 
   static fromArray(array): DoublyLinkedList {
     if (!Array.isArray(array)) {
