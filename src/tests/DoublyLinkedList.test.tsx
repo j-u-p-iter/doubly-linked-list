@@ -208,7 +208,7 @@ describe('DoublyLinkedList', () => {
     });
   });
 
-  describe.only('findAt method', () => {
+  describe('findAt method', () => {
     describe('when the list is empty', () => {
       it('returns null', () => {
         const doublyLinkedList = new DoublyLinkedList();
@@ -248,6 +248,43 @@ describe('DoublyLinkedList', () => {
         const node = doublyLinkedList.findAt(1);
 
         expect(node.getValue()).toEqual('12');
+      });
+    });
+  });
+
+  describe('setAt method', () => {
+    describe('when the list is empty', () => {
+      it('returns false', () => {
+        const doublyLinkedList = new DoublyLinkedList();
+
+        const result = doublyLinkedList.setAt(0, 2);
+
+        expect(result).toEqual(false);
+        expect(doublyLinkedList.getLength()).toBe(0);
+      });
+    });
+
+    describe('when the index is negative', () => {
+      it('returns false', () => {
+        const doublyLinkedList = new DoublyLinkedList();
+
+        doublyLinkedList.push(new DoublyLinkedListNode('10'));
+
+        const result = doublyLinkedList.setAt(-1, '5');
+
+        expect(result).toEqual(false);
+        expect(doublyLinkedList.getLength()).toBe(1);
+      });
+    });
+
+    describe('when the index is valid and the list is not empty', () => {
+      it('returns correct node', () => {
+        const doublyLinkedList = DoublyLinkedList.fromArray(['10', '12', '15']);
+
+        doublyLinkedList.setAt(1, '5');
+
+        expect(doublyLinkedList.findAt(1).getValue()).toEqual('5');
+        expect(doublyLinkedList.getLength()).toBe(3);
       });
     });
   });

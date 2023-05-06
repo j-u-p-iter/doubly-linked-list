@@ -154,6 +154,18 @@ export class DoublyLinkedList {
     return this.tail;
   }
 
+  public setAt(nodeIndex, value): boolean {
+    const node = this.findAt(nodeIndex);
+
+    if (!node) {
+      return false;
+    }
+
+    node.setValue(value);
+
+    return true;
+  }
+
   /**
    * Finds the node by the index.
    *
