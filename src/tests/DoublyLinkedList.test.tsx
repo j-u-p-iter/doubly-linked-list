@@ -288,4 +288,98 @@ describe('DoublyLinkedList', () => {
       });
     });
   });
+
+  describe('insertAt method', () => {
+    describe('if the index is negative', () => {
+      it('returns false and does not insert node', () => {
+        const doublyLinkedList = new DoublyLinkedList();
+
+        const result = doublyLinkedList.insertAt(-5, 10);
+
+        expect(result).toBe(false);
+        expect(doublyLinkedList.getLength()).toBe(0);
+      });
+    });
+
+    describe('if the index is higher than the length of the list', () => {
+      it('returns false and does not insert node', () => {
+        const doublyLinkedList = new DoublyLinkedList();
+
+        const nodes = [
+          new DoublyLinkedListNode('10'),
+          new DoublyLinkedListNode('12'),
+          new DoublyLinkedListNode('15'),
+        ];
+
+        nodes.forEach((node) => doublyLinkedList.push(node));
+
+        const result = doublyLinkedList.insertAt(20, 10);
+
+        expect(result).toBe(false);
+        expect(doublyLinkedList.getLength()).toBe(3);
+      });
+    });
+
+    describe('if the index equals to 0', () => {
+      it('inserts node in the beginning of the list', () => {
+        const doublyLinkedList = new DoublyLinkedList();
+
+        const nodes = [
+          new DoublyLinkedListNode('10'),
+          new DoublyLinkedListNode('12'),
+          new DoublyLinkedListNode('15'),
+        ];
+
+        nodes.forEach((node) => doublyLinkedList.push(node));
+
+        const result = doublyLinkedList.insertAt(0, new DoublyLinkedListNode('5'));
+
+        expect(doublyLinkedList.getLength()).toBe(4);
+        expect(doublyLinkedList.getHead().getValue()).toEqual('5');
+        expect(result).toBe(true);
+      });
+    });
+
+    describe('if the index equals to the length of the list', () => {
+      it('inserts node at the end of the list', () => {
+        const doublyLinkedList = new DoublyLinkedList();
+
+        const nodes = [
+          new DoublyLinkedListNode('10'),
+          new DoublyLinkedListNode('12'),
+          new DoublyLinkedListNode('15'),
+        ];
+
+        nodes.forEach((node) => doublyLinkedList.push(node));
+
+        const result = doublyLinkedList.insertAt(3, new DoublyLinkedListNode('5'));
+
+        expect(doublyLinkedList.getLength()).toBe(4);
+        expect(doublyLinkedList.getTail().getValue()).toEqual('5');
+        expect(result).toBe(true);
+      });
+    });
+
+    describe('if the index is valid', () => {
+      it('inserts node at correct index', () => {
+        const doublyLinkedList = new DoublyLinkedList();
+
+        const nodes = [
+          new DoublyLinkedListNode('10'),
+          new DoublyLinkedListNode('12'),
+          new DoublyLinkedListNode('15'),
+        ];
+
+        nodes.forEach((node) => doublyLinkedList.push(node));
+
+        const result = doublyLinkedList.insertAt(1, new DoublyLinkedListNode('5'));
+
+        expect(doublyLinkedList.getLength()).toBe(4);
+        expect(doublyLinkedList.findAt(0).getValue()).toEqual('10');
+        expect(doublyLinkedList.findAt(1).getValue()).toEqual('5');
+        expect(doublyLinkedList.findAt(2).getValue()).toEqual('12');
+        expect(result).toBe(true);
+      });
+    });
+  });
 });

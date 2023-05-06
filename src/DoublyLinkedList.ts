@@ -154,6 +154,35 @@ export class DoublyLinkedList {
     return this.tail;
   }
 
+  public insertAt(nodeIndex: number, value: any) {
+    if (nodeIndex < 0 || nodeIndex > this.length) {
+      return false;
+    }
+
+    const newNode = this.valueToNode(value);
+
+    if (nodeIndex === 0) {
+      return Boolean(this.unshift(newNode));
+    }
+
+    if (nodeIndex === this.length) {
+      return Boolean(this.push(newNode));
+    }
+
+    const prevNode = this.findAt(nodeIndex - 1);
+    const currentNodeAtIndex = prevNode.getNext();
+
+    prevNode.setNext(newNode);
+    newNode.setPrev(prevNode);
+
+    newNode.setNext(currentNodeAtIndex);
+    currentNodeAtIndex.setPrev(newNode);
+
+    this.length++;
+
+    return true;
+  }
+
   public setAt(nodeIndex, value): boolean {
     const node = this.findAt(nodeIndex);
 
