@@ -382,4 +382,137 @@ describe('DoublyLinkedList', () => {
       });
     });
   });
+
+  describe('removeAt method', () => {
+    describe('if the index is negative', () => {
+      it('returns false', () => {
+        const doublyLinkedList = new DoublyLinkedList();
+
+        const result = doublyLinkedList.removeAt(-5);
+
+        expect(result).toBe(false);
+        expect(doublyLinkedList.getLength()).toBe(0);
+      });
+    });
+
+    describe('if the index is higher than the length of the list', () => {
+      it('returns false', () => {
+        const doublyLinkedList = new DoublyLinkedList();
+
+        const nodes = [
+          new DoublyLinkedListNode('10'),
+          new DoublyLinkedListNode('12'),
+          new DoublyLinkedListNode('15'),
+        ];
+
+        nodes.forEach((node) => doublyLinkedList.push(node));
+
+        const result = doublyLinkedList.removeAt(20);
+
+        expect(result).toBe(false);
+        expect(doublyLinkedList.getLength()).toBe(3);
+      });
+    });
+
+    describe('if the index equals to 0', () => {
+      it('removes node from the beginning of the list', () => {
+        const doublyLinkedList = new DoublyLinkedList();
+
+        const nodes = [
+          new DoublyLinkedListNode('10'),
+          new DoublyLinkedListNode('12'),
+          new DoublyLinkedListNode('15'),
+        ];
+
+        nodes.forEach((node) => doublyLinkedList.push(node));
+
+        const result = doublyLinkedList.removeAt(0);
+
+        expect(doublyLinkedList.getLength()).toBe(2);
+        expect(doublyLinkedList.getHead().getValue()).toEqual('12');
+        expect(result).toBe(true);
+      });
+    });
+
+    describe('if the index equals to the length of the list - 1', () => {
+      it('removes the last node of the list', () => {
+        const doublyLinkedList = new DoublyLinkedList();
+
+        const nodes = [
+          new DoublyLinkedListNode('10'),
+          new DoublyLinkedListNode('12'),
+          new DoublyLinkedListNode('15'),
+        ];
+
+        nodes.forEach((node) => doublyLinkedList.push(node));
+
+        const result = doublyLinkedList.removeAt(2);
+
+        expect(doublyLinkedList.getLength()).toBe(2);
+        expect(doublyLinkedList.getTail().getValue()).toEqual('12');
+        expect(result).toBe(true);
+      });
+    });
+
+    describe('if the index is valid', () => {
+      it('removes node with correct index', () => {
+        const doublyLinkedList = new DoublyLinkedList();
+
+        const nodes = [
+          new DoublyLinkedListNode('10'),
+          new DoublyLinkedListNode('12'),
+          new DoublyLinkedListNode('15'),
+        ];
+
+        nodes.forEach((node) => doublyLinkedList.push(node));
+
+        const result = doublyLinkedList.removeAt(1);
+
+        expect(doublyLinkedList.getLength()).toBe(2);
+        expect(doublyLinkedList.findAt(0).getValue()).toEqual('10');
+        expect(doublyLinkedList.findAt(1).getValue()).toEqual('15');
+        expect(result).toBe(true);
+      });
+    });
+  });
+
+  describe('forEach method', () => {
+    it('traverses list from the very beginning till the very end', () => {
+      const doublyLinkedList = DoublyLinkedList.fromArray(['10', '12', '15']);
+
+      const callback = jest.fn(() => {});
+      doublyLinkedList.forEach(callback)
+
+      expect(callback).toHaveBeenCalledTimes(3);
+
+      expect((callback.mock.calls[0] as any)[0].getValue()).toBe('10')
+      expect((callback.mock.calls[0] as any)[1]).toEqual(0)
+
+      expect((callback.mock.calls[1] as any)[0].getValue()).toBe('12')
+      expect((callback.mock.calls[1] as any)[1]).toEqual(1)
+
+      expect((callback.mock.calls[2] as any)[0].getValue()).toBe('15')
+      expect((callback.mock.calls[2] as any)[1]).toEqual(2)
+    });
+  });
+
+  describe('forEachReverse method', () => {
+    it('traverses list from the very beginning till the very end', () => {
+      const doublyLinkedList = DoublyLinkedList.fromArray(['10', '12', '15']);
+
+      const callback = jest.fn(() => {});
+      doublyLinkedList.forEachReverse(callback)
+
+      expect(callback).toHaveBeenCalledTimes(3);
+
+      expect((callback.mock.calls[0] as any)[0].getValue()).toBe('15')
+      expect((callback.mock.calls[0] as any)[1]).toEqual(0)
+
+      expect((callback.mock.calls[1] as any)[0].getValue()).toBe('12')
+      expect((callback.mock.calls[1] as any)[1]).toEqual(1)
+
+      expect((callback.mock.calls[2] as any)[0].getValue()).toBe('10')
+      expect((callback.mock.calls[2] as any)[1]).toEqual(2)
+    });
+  });
 });

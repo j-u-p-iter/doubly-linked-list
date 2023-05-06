@@ -183,6 +183,35 @@ export class DoublyLinkedList {
     return true;
   }
 
+  /**
+   * Removes node from the list at the
+   *   provided position
+   *
+   */
+  public removeAt(nodeIndex: number): boolean {
+    if (this.isIndexInvalid(nodeIndex)) {
+      return false;
+    }
+
+    if (nodeIndex === 0) {
+      return Boolean(this.shift());
+    }
+
+    if (nodeIndex === this.length - 1) {
+      return Boolean(this.pop());
+    }
+
+    const prevNode = this.findAt(nodeIndex - 1);
+    const nextNode = prevNode.getNext().getNext();
+
+    prevNode.setNext(nextNode);
+    nextNode.setPrev(prevNode);
+
+    this.length--;
+
+    return true;
+  }
+
   public setAt(nodeIndex, value): boolean {
     const node = this.findAt(nodeIndex);
 
@@ -278,6 +307,52 @@ export class DoublyLinkedList {
 
     return null;
   } 
+
+  /**
+   * Traverses the list
+   *   from the very beginning
+   *   till the very end.
+   *
+   */
+  public forEach(callback: Callback) {
+    if (typeof callback !== 'function') {
+      throw new Error('.forEach(callback) method expects a callback.')
+    }
+
+    let current = this.head;
+    let index = 0;
+
+    while (current instanceof DoublyLinkedListNode) {
+      callback(current, index);
+
+      current = current.getNext();
+
+      index++;
+    }
+  }
+
+  /**
+   * Traverses the list
+   *   from the very end
+   *   till the very beginning.
+   *
+   */
+  public forEachReverse(callback: Callback) {
+    if (typeof callback !== 'function') {
+      throw new Error('.forEach(callback) method expects a callback.')
+    }
+
+    let current = this.tail;
+    let index = 0;
+
+    while (current instanceof DoublyLinkedListNode) {
+      callback(current, index);
+
+      current = current.getPrev();
+
+      index++;
+    }
+  }
 
   static fromArray(array): DoublyLinkedList {
     if (!Array.isArray(array)) {
