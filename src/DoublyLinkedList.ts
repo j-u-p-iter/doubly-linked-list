@@ -354,6 +354,26 @@ export class DoublyLinkedList {
     }
   }
 
+  /**
+   * Filters out the list.
+   *
+   */
+  public filter(callback: Callback<boolean>): DoublyLinkedList {
+    if (typeof callback !== 'function') {
+      throw new Error('.filter(callback) method expects a callback.');
+    }
+
+    const resultList = new DoublyLinkedList();
+
+    this.forEach((node, index) => {
+      if (callback(node, index)) {
+        resultList.push(node.clone());
+      }
+    });
+
+    return resultList;
+  }
+
   static fromArray(array): DoublyLinkedList {
     if (!Array.isArray(array)) {
       throw new Error('fromArray(array) method expects an array');

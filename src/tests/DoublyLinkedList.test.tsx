@@ -289,6 +289,34 @@ describe('DoublyLinkedList', () => {
     });
   });
 
+  describe('filter method', () => {
+    describe('filters out the list according to the condition', () => {
+      it('returns searching node', () => {
+        const doublyLinkedList = new DoublyLinkedList();
+
+        const nodes = [
+          new DoublyLinkedListNode('10'),
+          new DoublyLinkedListNode('12'),
+          new DoublyLinkedListNode('15'),
+        ];
+
+        nodes.forEach((node) => doublyLinkedList.push(node));
+
+        expect(doublyLinkedList.getLength()).toBe(3);
+        const resultList = doublyLinkedList.filter((node, index) => {
+          return node.getValue() === '12' || index === 2;
+        });
+
+        const head = resultList.getHead();
+        const tail = resultList.getTail();
+
+        expect(resultList.getLength()).toBe(2);
+        expect(head).toEqual(new DoublyLinkedListNode('12', new DoublyLinkedListNode('15', null, head)));
+        expect(tail).toEqual(new DoublyLinkedListNode('15', null, head));
+      });
+    });
+  });
+
   describe('insertAt method', () => {
     describe('if the index is negative', () => {
       it('returns false and does not insert node', () => {
